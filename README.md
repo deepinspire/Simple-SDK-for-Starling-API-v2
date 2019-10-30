@@ -12,7 +12,7 @@ It have minimal dependencies and is compatible with Java 1.8+.
 2. Register Application in the sandbox environment
    - Generating a key pair and upload to the portal
    - Add Sandbox Customer
-   -- Business / Personal / Joint
+     - Business / Personal / Joint
    - Add funds to your Business Customer Account
 4. Clone and setup "StarlingAPIWrapper" locally
    - Copy key pair to folder "keys"
