@@ -10,16 +10,15 @@ It have minimal dependencies and is compatible with Java 1.8+.
 ## Short plan to start
 1. Create an Account (Set up a developer account)
 2. Register Application in the sandbox environment
- 2.1 Generating a key pair and upload to the portal
- 2.2 Add Sandbox Customer
-  2.2.1 Business / Personal / Joint
- 2.3 Add funds to your Business Customer Account
+   - Generating a key pair and upload to the portal
+   - Add Sandbox Customer
+   -- Business / Personal / Joint
+   - Add funds to your Business Customer Account
 4. Clone and setup "StarlingAPIWrapper" locally
- 4.1 Copy key pair to folder "keys"
- 4.2 Create new configuration file or change existing "cfg/sandbox.properties" 
-    with your current sandbox application data
+   - Copy key pair to folder "keys"
+   - Create new configuration file or change existing "cfg/sandbox.properties" with your current sandbox application data
 5. Experiment in the sandbox environment
- 5.1 Run simple test (/src/tests/com/deepinspire/sterlingbank/SterlingApiV2WrapperTests.java) for checking that all configured correctly
+   - Run simple test (/src/tests/com/deepinspire/sterlingbank/SterlingApiV2WrapperTests.java) for checking that all configured correctly
 6. Build and integrate lib to your project
 7. Get your application approved
 
