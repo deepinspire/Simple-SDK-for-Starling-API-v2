@@ -908,7 +908,7 @@ public class StarlingClient {
      */
     public static KeyPair LoadKeyPair(String path, String algorithm) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         // Read Public Key.
-        String pathPublicKey = Paths.get(path).resolve("public.der").toString();
+        String pathPublicKey = Paths.get(path).resolve("public_key.der").toString();
         System.out.println(">> LoadKeyPair - pathPublicKey: " + pathPublicKey);
 
         File filePublicKey = new File(pathPublicKey);
@@ -919,7 +919,7 @@ public class StarlingClient {
 
 
         // Read Private Key.
-        String pathPrivateKey = Paths.get(path).resolve("private.der").toString();
+        String pathPrivateKey = Paths.get(path).resolve("private_key.der").toString();
         System.out.println(">> LoadKeyPair - pathPrivateKey: " + pathPrivateKey);
 
         File filePrivateKey = new File(pathPrivateKey);
