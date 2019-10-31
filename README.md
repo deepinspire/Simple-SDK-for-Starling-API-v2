@@ -9,7 +9,7 @@ It have minimal dependencies and is compatible with Java 1.8+.
 
 ## Short plan how to start
 1. Create an Account (Set up a developer account)
-2. Register Application in the sandbox environment
+2. Register Application in the sandbox environment - [https://www.youtube.com/watch?v=b8V1kXG9jnk](https://www.youtube.com/watch?v=b8V1kXG9jnk)
    - Generating a key pair and upload to the portal
    - Add Sandbox Customer
      - Business / Personal / Joint
