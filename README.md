@@ -14,7 +14,7 @@ It have minimal dependencies and is compatible with Java 1.8+.
    - Add Sandbox Customer
      - Business / Personal / Joint
    - Add funds to your Business Customer Account
-4. Clone and setup "StarlingAPIWrapper" locally
+4. Clone and setup "StarlingAPIWrapper" locally - [https://www.youtube.com/watch?v=dB80KGWYQy8](https://www.youtube.com/watch?v=dB80KGWYQy8)
    - *[Optionals]* Copy already generated key pair to project folder "/keys"
    - Create new configuration file or change existing "cfg/sandbox.properties" with your current sandbox application data.
      Be sure that you set up next properties correctly:
