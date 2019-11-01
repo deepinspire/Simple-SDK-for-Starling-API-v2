@@ -87,17 +87,7 @@ public class SterlingApiV2WrapperTests {
 
             this.accountUid = properties.getProperty("starling.account.account-uid");
             this.categoryUid = properties.getProperty("starling.account.category-uid");
-
-            /*
-                Response response = client.getAccount();
-
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(response.getContent());
-
-                this.accountUid = jsonNode.get("accounts").get(0).get("accountUid").asText();
-                this.categoryUid = jsonNode.get("accounts").get(0).get("defaultCategory").asText();
-            */
-
+            
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (IOException e) {
