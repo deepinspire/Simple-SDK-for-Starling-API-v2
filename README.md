@@ -43,6 +43,37 @@ It has minimal dependencies and is compatible with Java 1.8+.
    openssl rsa -in keys/private_key.pem -outform DER -pubout -out keys/public_key.der
    ```
 
+## Sample Usage
+This is simple api wrapper in beta stage that provide simple interaction with "Starling Bank" API...
+
+### Initialise Client
+```
+StarlingClient client = new StarlingClient(
+    <domain url>,
+    <keys dir path>,
+    <public key uid>,
+    <access token>
+);
+```
+
+### Fetch your account details
+```
+Response response = client.getAccount();
+System.out.println(response.toString());
+```
+
+### Check your account balance
+```
+Response response = client.getAccountBalance(<account uid>);
+System.out.println(response.toString());
+```
+
+### Get all transaction feed items
+```
+Response response = client.getTransactionFeedItems(accountUid, categoryUid);
+System.out.println(response.toString());
+```
+
 ## License
 The gem is available as open source under the terms of
 the [MIT License](http://opensource.org/licenses/MIT).
