@@ -47,7 +47,7 @@ It has minimal dependencies and is compatible with Java 1.8+.
 This is simple api wrapper in beta stage that provide simple interaction with "Starling Bank" API...
 
 ### Initialise Client
-```
+```java
 StarlingClient client = new StarlingClient(
     <domain url>,
     <keys dir path>,
@@ -57,19 +57,19 @@ StarlingClient client = new StarlingClient(
 ```
 
 ### Fetch your account details
-```
+```java
 Response response = client.getAccount();
 System.out.println(response.toString());
 ```
 
 ### Check your account balance
-```
+```java
 Response response = client.getAccountBalance(<account uid>);
 System.out.println(response.toString());
 ```
 
 ### Get all transaction feed items
-```
+```java
 Response response = client.getTransactionFeedItems(accountUid, categoryUid);
 System.out.println(response.toString());
 ```
