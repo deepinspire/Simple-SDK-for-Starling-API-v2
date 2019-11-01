@@ -4,7 +4,7 @@ It has minimal dependencies and is compatible with Java 1.8+.
 
 ## Links
 * Documentation: [https://developer.starlingbank.com/payments/docs](https://developer.starlingbank.com/payments/docs)
-* Cetting started: [https://developer.starlingbank.com/get-started](https://developer.starlingbank.com/get-started)
+* Getting started: [https://developer.starlingbank.com/get-started](https://developer.starlingbank.com/get-started)
 * Swagger 2.0 definition: [https://payment-api-sandbox.starlingbank.com/api/swagger.json](https://payment-api-sandbox.starlingbank.com/api/swagger.json)
 
 ## How to start
