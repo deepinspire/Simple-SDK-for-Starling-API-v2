@@ -1,5 +1,5 @@
-# StarlingAPIWrapper
-*StarlingAPIWrapper* is a Java library that provides simple access to the Starling Bank API.
+# This is SDK/wrapper for Starling API v2.
+It was intentionally made simple to provide a quick start and a better understanding of 'what's under the hood.
 It has minimal dependencies and is compatible with Java 1.8+.
 
 ## Links
