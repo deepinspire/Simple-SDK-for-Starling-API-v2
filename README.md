@@ -10,7 +10,7 @@ It has minimal dependencies and is compatible with Java 1.8+.
 * Getting started: [https://developer.starlingbank.com/get-started](https://developer.starlingbank.com/get-started)
 * Swagger 2.0 definition: [https://payment-api-sandbox.starlingbank.com/api/swagger.json](https://payment-api-sandbox.starlingbank.com/api/swagger.json)
 
-## Roadmad
+## Roadmap
 1. API Response wrapper classes
 2. Unit testing
 3. Documentation (Adding metadata for generation documentation from code)
