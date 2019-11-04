@@ -13,7 +13,8 @@ It has minimal dependencies and is compatible with Java 1.8+.
 ## Roadmad
 1. API Response wrapper classes
 2. Unit testing
-3. Simplify client initialization
+3. Documentation (Adding metadata for generation documentation from code)
+4. Simplify client initialization
 
 ## How to start
 1. Create an Account (Set up a developer account)
