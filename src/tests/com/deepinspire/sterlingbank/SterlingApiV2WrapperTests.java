@@ -13,8 +13,6 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
 
 import main.com.deepinspire.sterlingbank.StarlingClient;
@@ -773,7 +771,16 @@ public class SterlingApiV2WrapperTests {
      */
     @Test
     public void createDomesticPayment() {
-        String localPayment = String.format("{\"externalIdentifier\":\"23cfcb22-b3d5-427f-ad45-25104025192a\",\"reference\":\"%s\",\"amount\":{\"currency\":\"GBP\",\"minorUnits\":100},\"destinationPayeeAccountUid\":\"6f4f5b68-cb54-4dbf-becb-5574ba6f126f\"}", Long.toHexString(Double.doubleToLongBits(Math.random())));
+        String localPayment = String.format(
+        "{" +
+            "\"externalIdentifier\":\"23cfcb22-b3d5-427f-ad45-25104025192a\"," +
+            "\"reference\":\"%s\"," +
+            "\"amount\":{" +
+                "\"currency\":\"GBP\"," +
+                "\"minorUnits\":100" +
+            "}," +
+            "\"destinationPayeeAccountUid\":\"6f4f5b68-cb54-4dbf-becb-5574ba6f126f\"" +
+        "}", Long.toHexString(Double.doubleToLongBits(Math.random())));
 
         Response response = client.createDomesticPayment(
             accountUid,
