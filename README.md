@@ -2,7 +2,7 @@
 <p align="left">
     <img src="https://img.shields.io/badge/version-0.1.0-blue.svg" />
 </p>
-It was intentionally made simple to provide a quick start and a better understanding of 'what's under the hood.
+It was intentionally made simple to provide a quick start and a better understanding of "what's under the hood".
 It has minimal dependencies and is compatible with Java 1.8+.
 
 ## Links
