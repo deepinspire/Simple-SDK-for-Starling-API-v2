@@ -10,6 +10,11 @@ It has minimal dependencies and is compatible with Java 1.8+.
 * Getting started: [https://developer.starlingbank.com/get-started](https://developer.starlingbank.com/get-started)
 * Swagger 2.0 definition: [https://payment-api-sandbox.starlingbank.com/api/swagger.json](https://payment-api-sandbox.starlingbank.com/api/swagger.json)
 
+## Roadmad
+1. API Response wrapper classes
+2. Unit testing
+3. Simplify client initialization
+
 ## How to start
 1. Create an Account (Set up a developer account)
 2. Register Application in the sandbox environment - [https://www.youtube.com/watch?v=b8V1kXG9jnk](https://www.youtube.com/watch?v=b8V1kXG9jnk)
