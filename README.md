@@ -13,8 +13,12 @@ It has minimal dependencies and is compatible with Java 1.8+.
 ## Roadmap
 1. API Response wrapper classes
 2. Unit testing
-3. Documentation (Adding metadata for generation documentation from code)
-4. Simplify client initialization
+3. Create new or improve existing video guideas
+   - renew (regarding new changes)
+   - add subtitles
+   - add voice
+4. Documentation (Adding metadata for generation documentation from code)
+5. Simplify client initialization
 
 ## How to start
 1. Create an Account (Set up a developer account)
