@@ -38,7 +38,7 @@ It has minimal dependencies and is compatible with Java 1.8+.
      - starling.signing.public-key-uid - unique identifier of your public key that you uploaded to the portal
      - starling.access.token - your current access token from your sandbox app options
 4. Experiment in the sandbox environment
-   - Run simple test (/src/tests/com/deepinspire/sterlingbank/SterlingApiV2WrapperTests.java) for checking that all is configured correctly
+   - Run simple test (/src/tests/com/deepinspire/starlingbank/StarlingApiV2WrapperTests.java) for checking that all is configured correctly
 5. Build and integrate lib to your project
 6. Get your application approved
 
