@@ -1,4 +1,4 @@
-package main.com.deepinspire.sterlingbank.http;
+package main.com.deepinspire.starlingbank.http;
 
 public class Request {
     public static String OPTIONS = "options";

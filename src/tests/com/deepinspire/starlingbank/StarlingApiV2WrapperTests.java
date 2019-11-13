@@ -1,27 +1,23 @@
-package tests.com.deepinspire.sterlingbank;
+package tests.com.deepinspire.starlingbank;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.ProtocolException;
-import java.net.URLEncoder;
 import java.security.*;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.*;
 
-import main.com.deepinspire.sterlingbank.StarlingClient;
-import main.com.deepinspire.sterlingbank.http.Response;
+import main.com.deepinspire.starlingbank.StarlingClient;
+import main.com.deepinspire.starlingbank.http.Response;
 
 import javax.net.ssl.*;
 
 
-public class SterlingApiV2WrapperTests {
+public class StarlingApiV2WrapperTests {
     private static String accountUid;
     private static String categoryUid;
 

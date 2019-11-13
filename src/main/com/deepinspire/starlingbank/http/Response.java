@@ -1,4 +1,4 @@
-package main.com.deepinspire.sterlingbank.http;
+package main.com.deepinspire.starlingbank.http;
 
 import java.util.Iterator;
 import java.util.List;

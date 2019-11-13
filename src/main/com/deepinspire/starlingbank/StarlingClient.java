@@ -1,11 +1,8 @@
-package main.com.deepinspire.sterlingbank;
+package main.com.deepinspire.starlingbank;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -14,8 +11,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 
-import main.com.deepinspire.sterlingbank.http.Request;
-import main.com.deepinspire.sterlingbank.http.Response;
+import main.com.deepinspire.starlingbank.http.Request;
+import main.com.deepinspire.starlingbank.http.Response;
 
 
 import javax.net.ssl.HttpsURLConnection;
