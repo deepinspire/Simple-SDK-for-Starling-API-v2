@@ -9,16 +9,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
+import java.util.*;
+import java.util.stream.IntStream;
 
+import main.com.deepinspire.starlingbank.beans.account.AccountBean;
+import main.com.deepinspire.starlingbank.beans.account.AccountsBean;
 import main.com.deepinspire.starlingbank.http.Request;
 import main.com.deepinspire.starlingbank.http.Response;
 
 
 import javax.net.ssl.HttpsURLConnection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -49,15 +49,15 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts
      * Get an account holder's bank accounts
      */
-    public Response getAccount() {
-        return this.sendRequest(Request.GET, "/api/v2/accounts");
+    public ArrayList<AccountBean> getAccount() throws Exception {
+        return this.sendRequest(Request.GET, "/api/v2/accounts").fromJson(AccountsBean.class).getAccounts();
     }
 
     /**
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/identifiers
      * Get an account holder's bank account identifiers
      */
-    public Response getAccountIdentifiers(String accountUid) {
+    public Response getAccountIdentifiers(String accountUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/identifiers", accountUid));
     }
 
@@ -68,7 +68,7 @@ public class StarlingClient {
      * The cleared balance is the settled balance on the account and so does not include pending transactions.
      * The effective balance includes pending transactions, and is the value most commonly presented to the account holder.
      */
-    public Response getAccountBalance(String accountUid) {
+    public Response getAccountBalance(String accountUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/balance", accountUid));
     }
 
@@ -76,7 +76,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/confirmation-of-funds
      * Get whether or not there are available funds for a requested amount
      */
-    public Response getAccountConfirmationOfFunds(String accountUid, int targetAmountInMinorUnits) {
+    public Response getAccountConfirmationOfFunds(String accountUid, int targetAmountInMinorUnits) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/confirmation-of-funds?targetAmountInMinorUnits=%s", accountUid, targetAmountInMinorUnits));
     }
 
@@ -84,7 +84,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/statement/available-periods
      * Get list of statement periods which are available for an account
      */
-    public Response getAccountStatementAvailablePeriods(String accountUid) {
+    public Response getAccountStatementAvailablePeriods(String accountUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/statement/available-periods", accountUid));
     }
 
@@ -92,7 +92,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/statement/download
      * Download a CSV statement for a given statement period
      */
-    public Response getAccountStatementDownload(String accountUid, String yearMonth) {
+    public Response getAccountStatementDownload(String accountUid, String yearMonth) throws Exception {
         Map<String,String> requestHeaders = new HashMap<String, String>();
         requestHeaders.put("Accept", "application/pdf");
         requestHeaders.put("Content-Type", "application/json; charset=utf-8");
@@ -104,7 +104,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/statement/downloadForDateRange
      * Download a CSV statement for a given date range
      */
-    public Response getAccountStatementDownloadForDateRange(String accountUid, String startDate, String endDate) {
+    public Response getAccountStatementDownloadForDateRange(String accountUid, String startDate, String endDate) throws Exception {
         Map<String,String> requestHeaders = new HashMap<String, String>();
         requestHeaders.put("Accept", "application/pdf");
         requestHeaders.put("Content-Type", "application/json; charset=utf-8");
@@ -117,7 +117,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business
      * Get a business account holder's details
      */
-    public Response getAccountHolderBusiness() {
+    public Response getAccountHolderBusiness() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/business");
     }
 
@@ -125,7 +125,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business/correspondence-address
      * Get a company's correspondence address. Will fallback to registered address if null
      */
-    public Response getAccountHolderBusinessCorrespondenceAddress() {
+    public Response getAccountHolderBusinessCorrespondenceAddress() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/business/correspondence-address");
     }
 
@@ -133,7 +133,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business/registered-address
      * Get a company's registered address
      */
-    public Response getAccountHolderBusinessRegisteredAddress() {
+    public Response getAccountHolderBusinessRegisteredAddress() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/business/registered-address");
     }
 
@@ -142,7 +142,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Individuals and Sole Traders - /api/v2/account-holder/business/registered-address
      * Get an individual account holder's details
      */
-    public Response getAccountHolderIndividual() {
+    public Response getAccountHolderIndividual() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/individual");
     }
 
@@ -151,7 +151,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Individuals and Sole Traders - /api/v2/account-holder/individual/email
      * Update an individual account holder's email address
      */
-    public Response updateAccountHolderIndividualEmail(String payload) {
+    public Response updateAccountHolderIndividualEmail(String payload) throws Exception { 
         return this.sendSignedRequest(Request.PUT, "/api/v2/account-holder/individual/email", payload);
     }
 
@@ -160,7 +160,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Joint Accounts - /api/v2/account-holder/joint
      * Get a joint account holder's details
      */
-    public Response getAccountHolderJoint() {
+    public Response getAccountHolderJoint() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/joint");
     }
 
@@ -172,7 +172,7 @@ public class StarlingClient {
      * @param year
      * @param month Available values : JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
      */
-    public Response getAccountsSpendingInsightsCounterParty(String accountUid, String year, String month) {
+    public Response getAccountsSpendingInsightsCounterParty(String accountUid, String year, String month) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/spending-insights/counter-party?year=%s&month=%s", accountUid, year, month));
     }
 
@@ -183,7 +183,7 @@ public class StarlingClient {
      * @param year
      * @param month Available values : JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
      */
-    public Response getAccountsSpendingInsightsSpendingCategory(String accountUid, String year, String month) {
+    public Response getAccountsSpendingInsightsSpendingCategory(String accountUid, String year, String month) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/spending-insights/spending-category?year=%s&month=%s", accountUid, year, month));
     }
 
@@ -191,7 +191,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Spending Insights - /api/v2/accounts/{accountUid}/spending-insights/country
      * Gets the spending insights for specified account, grouped by country
      */
-    public Response getAccountsSpendingInsightsSpendingCountry(String accountUid, String year, String month) {
+    public Response getAccountsSpendingInsightsSpendingCountry(String accountUid, String year, String month) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/spending-insights/country?year=%s&month=%s", accountUid, year, month));
     }
 
@@ -200,7 +200,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Account Holders - /api/v2/account-holder
      * Get basic information about the account holder
      */
-    public Response getAccountHolder() {
+    public Response getAccountHolder() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder");
     }
 
@@ -208,7 +208,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Account Holders - /api/v2/account-holder/name
      * Get name of the account holder
      */
-    public Response getAccountHolderName() {
+    public Response getAccountHolderName() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/account-holder/name");
     }
 
@@ -217,7 +217,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Addresses - /api/v2/addresses
      * Get the account holder's addresses
      */
-    public Response getAddresses() {
+    public Response getAddresses() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/addresses");
     }
 
@@ -225,7 +225,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Addresses - /api/v2/addresses
      * Update the account holder's current address
      */
-    public Response setAddresses(String addressUpdateRequest) {
+    public Response setAddresses(String addressUpdateRequest) throws Exception { 
         return this.sendSignedRequest(Request.POST, "/api/v2/addresses", addressUpdateRequest);
     }
 
@@ -234,7 +234,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards
      * Get all the cards for an account holder
      */
-    public Response getCards() {
+    public Response getCards() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/cards");
     }
 
@@ -242,7 +242,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/enabled
      * Update card lock
      */
-    public Response updateCardLock(String cardUid, String enablingRequest) {
+    public Response updateCardLock(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/enabled", cardUid), enablingRequest);
     }
 
@@ -250,7 +250,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/atm-enabled
      * Update ATM withdrawal control
      */
-    public Response updateCardControlATMWithdrawal(String cardUid, String enablingRequest) {
+    public Response updateCardControlATMWithdrawal(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/atm-enabled", cardUid), enablingRequest);
     }
 
@@ -258,7 +258,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/online-enabled
      * Update online payments control
      */
-    public Response updateCardControlOnlinePayments(String cardUid, String enablingRequest) {
+    public Response updateCardControlOnlinePayments(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/online-enabled", cardUid), enablingRequest);
     }
 
@@ -266,7 +266,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/mobile-wallet-enabled
      * Update mobile wallet payments control
      */
-    public Response updateCardControlMobileWalletPayments(String cardUid, String enablingRequest) {
+    public Response updateCardControlMobileWalletPayments(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/mobile-wallet-enabled", cardUid), enablingRequest);
     }
 
@@ -274,7 +274,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/gambling-enabled
      * Update gambling payments control
      */
-    public Response updateCardControlGamblingPayments(String cardUid, String enablingRequest) {
+    public Response updateCardControlGamblingPayments(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/gambling-enabled", cardUid), enablingRequest);
     }
 
@@ -282,7 +282,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/pos-enabled
      * Update card present payments (contactless and chip and pin) control
      */
-    public Response updateCardControlPresentPayments(String cardUid, String enablingRequest) {
+    public Response updateCardControlPresentPayments(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/pos-enabled", cardUid), enablingRequest);
     }
 
@@ -290,7 +290,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Cards - /api/v2/cards/{cardUid}/controls/mag-stripe-enabled
      * Update magstripe payments control
      */
-    public Response updateCardControlMagstripePayments(String cardUid, String enablingRequest) {
+    public Response updateCardControlMagstripePayments(String cardUid, String enablingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/cards/%s/controls/mag-stripe-enabled", cardUid), enablingRequest);
     }
 
@@ -299,7 +299,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Direct Debit Mandates - /api/v2/direct-debit/mandates
      * Get a list of direct debit mandates
      */
-    public Response getListDirectDebitMandates() {
+    public Response getListDirectDebitMandates() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/direct-debit/mandates");
     }
 
@@ -307,7 +307,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Direct Debit Mandates - /api/v2/direct-debit/mandates/{mandateUid}
      * Get the direct debit mandate with the specified identifier
      */
-    public Response getDirectDebitMandate(String mandateUid) {
+    public Response getDirectDebitMandate(String mandateUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/direct-debit/mandates/%s", mandateUid));
     }
 
@@ -315,7 +315,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Direct Debit Mandates - /api/v2/direct-debit/mandates/{mandateUid}
      * Cancel the direct debit mandate with the specified identifier
      */
-    public Response cancelDirectDebitMandate(String mandateUid) {
+    public Response cancelDirectDebitMandate(String mandateUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/direct-debit/mandates/%s", mandateUid));
     }
 
@@ -324,7 +324,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/{feedItemUid}/spending-category
      * Changes the spending category for a transaction
      */
-    public Response changesSpendingCategoryForTransaction(String accountUid, String categoryUid, String feedItemUid, String spendingCategory) {
+    public Response changesSpendingCategoryForTransaction(String accountUid, String categoryUid, String feedItemUid, String spendingCategory) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/feed/account/%s/category/%s/%s/spending-category", accountUid, categoryUid, feedItemUid), spendingCategory);
     }
 
@@ -332,7 +332,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/{feedItemUid}
      * Fetches a single feed item
      */
-    public Response fetchesSingleTransactionFeedItem(String accountUid, String categoryUid, String feedItemUid) {
+    public Response fetchesSingleTransactionFeedItem(String accountUid, String categoryUid, String feedItemUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s/%s", accountUid, categoryUid, feedItemUid));
     }
 
@@ -340,11 +340,11 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}
      * Get the account holder's feed items which were created or updated since a given date
      */
-    public Response getTransactionFeedItems(String accountUid, String categoryUid) {
+    public Response getTransactionFeedItems(String accountUid, String categoryUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s", accountUid, categoryUid));
     }
 
-    public Response getTransactionFeedItems(String accountUid, String categoryUid, String changesSince) {
+    public Response getTransactionFeedItems(String accountUid, String categoryUid, String changesSince) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s?changesSince=%s", accountUid, categoryUid, changesSince));
     }
 
@@ -352,7 +352,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/transactions-between
      * Get the account holder's feed items which were created between two timestamps
      */
-    public Response getTransactionFeedItemsBetweenTwoTimestamps(String accountUid, String categoryUid, String minTransactionTimestamp, String maxTransactionTimestamp) {
+    public Response getTransactionFeedItemsBetweenTwoTimestamps(String accountUid, String categoryUid, String minTransactionTimestamp, String maxTransactionTimestamp) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s/transactions-betweens?minTransactionTimestamp=%s&maxTransactionTimestamp=%s", accountUid, categoryUid, minTransactionTimestamp, maxTransactionTimestamp));
     }
 
@@ -360,7 +360,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/{feedItemUid}/attachments
      * Fetches the list of items attached to a feed item
      */
-    public Response getListOfItemsAttachedToFeedItem(String accountUid, String categoryUid, String feedItemUid) {
+    public Response getListOfItemsAttachedToFeedItem(String accountUid, String categoryUid, String feedItemUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s/%s/attachments", accountUid, categoryUid, feedItemUid));
     }
 
@@ -368,7 +368,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/{feedItemUid}/attachments/{feedItemAttachmentUid}
      * Downloads the feed item attachment
      */
-    public Response downloadFeedItemAttachment(String accountUid, String categoryUid, String feedItemUid, String feedItemAttachmentUid) {
+    public Response downloadFeedItemAttachment(String accountUid, String categoryUid, String feedItemUid, String feedItemAttachmentUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/category/%s/%s/attachments/%s", accountUid, categoryUid, feedItemUid, feedItemAttachmentUid));
     }
 
@@ -376,7 +376,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Transaction Feed - /api/v2/feed/account/{accountUid}/category/{categoryUid}/{feedItemUid}/user-note
      * Changes the user-specified note attached to a transaction
      */
-    public Response changesUserSpecifiedNoteAttachedTransaction(String accountUid, String categoryUid, String feedItemUid, String userNote) {
+    public Response changesUserSpecifiedNoteAttachedTransaction(String accountUid, String categoryUid, String feedItemUid, String userNote) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/feed/account/%s/category/%s/%s/user-note", accountUid, categoryUid, feedItemUid), userNote);
     }
 
@@ -385,7 +385,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Feed Round-up - /api/v2/feed/account/{accountUid}/round-up
      * Returns the the round-up goal associated with an account if one has been created
      */
-    public Response getRoundUpFeed(String accountUid) {
+    public Response getRoundUpFeed(String accountUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/feed/account/%s/round-up", accountUid));
     }
 
@@ -393,7 +393,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Feed Round-up - /api/v2/feed/account/{accountUid}/round-up
      * Activates transaction round-up and adds remainder to savings goal
      */
-    public Response activateRoundUpGoal(String accountUid, String roundUpGoalPayload) {
+    public Response activateRoundUpGoal(String accountUid, String roundUpGoalPayload) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/feed/account/%s/round-up", accountUid), roundUpGoalPayload);
     }
 
@@ -401,7 +401,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Feed Round-up - /api/v2/feed/account/{accountUid}/round-up
      * Deletes the round-up goal associated with an account if one exists
      */
-    public Response deletesRoundUpGoalAssociatedWithAccount(String accountUid) {
+    public Response deletesRoundUpGoalAssociatedWithAccount(String accountUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/feed/account/%s/round-up", accountUid));
     }
 
@@ -410,7 +410,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - API User Identities - /api/v2/identity/token
      * Get current token identity
      */
-    public Response getIdentityToken() {
+    public Response getIdentityToken() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/identity/token");
     }
 
@@ -418,7 +418,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - API User Identities - /api/v2/identity/individual
      * The individual who authorised the application
      */
-    public Response getIdentityIndividual() {
+    public Response getIdentityIndividual() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/identity/individual");
     }
 
@@ -426,7 +426,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - API User Identities - /api/v2/identity/logout
      * Logout the current individual
      */
-    public Response logoutIdentity() {
+    public Response logoutIdentity() throws Exception { 
         return this.sendRequest(Request.PUT, "/api/v2/identity/logout");
     }
 
@@ -435,7 +435,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - KYC - /api/v2/kyc/result
      * Get KYC result for an account holder
      */
-    public Response getKYCResult() {
+    public Response getKYCResult() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/kyc/result");
     }
 
@@ -444,7 +444,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/payment-order/{paymentOrderUid}
      * Get a payment order
      */
-    public Response getPaymentOrder(String paymentOrderUid) {
+    public Response getPaymentOrder(String paymentOrderUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/payment-order/%s", paymentOrderUid));
     }
 
@@ -460,7 +460,7 @@ public class StarlingClient {
      * @param categoryUid categories are subdivisions of a Starling account
      * @param payload payment data
      */
-    public Response createDomesticPayment(String accountUid, String categoryUid, String payload) {
+    public Response createDomesticPayment(String accountUid, String categoryUid, String payload) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/payments/local/account/%s/category/%s", accountUid, categoryUid), payload);
     }
 
@@ -468,7 +468,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders/{paymentOrderUid}
      * Get a standing order
      */
-    public Response getStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) {
+    public Response getStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders/%s", accountUid, categoryUid, paymentOrderUid));
     }
 
@@ -476,7 +476,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders/{paymentOrderUid}
      * Update a standing order
      */
-    public Response updateStandingOrder(String accountUid, String categoryUid, String paymentOrderUid, String standingOrderRequest) {
+    public Response updateStandingOrder(String accountUid, String categoryUid, String paymentOrderUid, String standingOrderRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders/%s", accountUid, categoryUid, paymentOrderUid), standingOrderRequest);
     }
 
@@ -484,7 +484,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders/{paymentOrderUid}
      * Cancel a standing order
      */
-    public Response cancelStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) {
+    public Response cancelStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) throws Exception { 
         return this.sendSignedRequest(Request.DELETE, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders/%s", accountUid, categoryUid, paymentOrderUid));
     }
 
@@ -492,7 +492,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders
      * List standing orders
      */
-    public Response getListStandingOrders(String accountUid, String categoryUid) {
+    public Response getListStandingOrders(String accountUid, String categoryUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders", accountUid, categoryUid));
     }
 
@@ -500,7 +500,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders
      * Create a new standing order
      */
-    public Response createStandingOrder(String accountUid, String categoryUid, String standingOrderRequest) {
+    public Response createStandingOrder(String accountUid, String categoryUid, String standingOrderRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders", accountUid, categoryUid), standingOrderRequest);
     }
 
@@ -508,11 +508,11 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/account/{accountUid}/category/{categoryUid}/standing-orders/{paymentOrderUid}/upcoming-payments
      * List next payment dates of a standing order
      */
-    public Response listNextPaymentDatesOfStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) {
+    public Response listNextPaymentDatesOfStandingOrder(String accountUid, String categoryUid, String paymentOrderUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders/%s/upcoming-payments", accountUid, categoryUid, paymentOrderUid));
     }
 
-    public Response listNextPaymentDatesOfStandingOrder(String accountUid, String categoryUid, String paymentOrderUid, int NumberOfNextPaymentDates) {
+    public Response listNextPaymentDatesOfStandingOrder(String accountUid, String categoryUid, String paymentOrderUid, int NumberOfNextPaymentDates) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/account/%s/category/%s/standing-orders/%s/upcoming-payments?count=%s", accountUid, categoryUid, paymentOrderUid, NumberOfNextPaymentDates));
     }
 
@@ -520,7 +520,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payments - /api/v2/payments/local/payment-order/{paymentOrderUid}/payments
      * Get the payments associated with a payment order
      */
-    public Response getPaymentsAssociatedWithPaymentOrder(String paymentOrderUid) {
+    public Response getPaymentsAssociatedWithPaymentOrder(String paymentOrderUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payments/local/payment-order/%s/payments", paymentOrderUid));
     }
 
@@ -532,7 +532,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Onboarding - /api/v2/onboarding
      * Get the onboarding status of the account
      */
-    public Response getOnboardingStatus() {
+    public Response getOnboardingStatus() throws Exception { 
         return this.sendSignedRequest(Request.GET, "/api/v2/onboarding");
     }
 
@@ -540,7 +540,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Onboarding - /api/v2/onboarding
      * Onboard an account
      */
-    public Response onboardAccount(String onboardingRequest) {
+    public Response onboardAccount(String onboardingRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, "/api/v2/onboarding", onboardingRequest);
     }
 
@@ -549,7 +549,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees/{payeeUid}/image
      * Serves the image for the payee
      */
-    public Response getPayeesImage(String payeeUid) {
+    public Response getPayeesImage(String payeeUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/payees/%s/image", payeeUid));
     }
 
@@ -557,7 +557,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees
      * Get an account holder's payees
      */
-    public Response getPayees() {
+    public Response getPayees() throws Exception { 
         return this.sendRequest(Request.GET, "/api/v2/payees");
     }
 
@@ -565,7 +565,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees
      * Create a payee
      */
-    public Response createPayee(String payee) {
+    public Response createPayee(String payee) throws Exception { 
         return this.sendSignedRequest(Request.PUT, "/api/v2/payees", payee);
     }
 
@@ -573,7 +573,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees/{payeeUid}
      * Deletes a payee
      */
-    public Response deletePayee(String payeeUid) {
+    public Response deletePayee(String payeeUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/payees/%s", payeeUid));
     }
 
@@ -581,7 +581,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees/{payeeUid}/account/{accountUid}
      * Delete a payee account
      */
-    public Response deletePayeeAccount(String payeeUid, String accountUid) {
+    public Response deletePayeeAccount(String payeeUid, String accountUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/payees/%s/account/%s", payeeUid, accountUid));
     }
 
@@ -589,7 +589,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Payees - /api/v2/payees/{payeeUid}/account
      * Create a payee account
      */
-    public Response createPayeeAccount(String payeeUid, String payeeAccount) {
+    public Response createPayeeAccount(String payeeUid, String payeeAccount) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/payees/%s/account", payeeUid), payeeAccount);
     }
 
@@ -598,7 +598,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}
      * Get a savings goal
      */
-    public Response getSavingsGoal(String accountUid, String savingsGoalUid) {
+    public Response getSavingsGoal(String accountUid, String savingsGoalUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/account/%s/savings-goals/%s", accountUid, savingsGoalUid));
     }
 
@@ -606,7 +606,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}
      * Update an existing goal
      */
-    public Response updateSavingsGoal(String payeeUid, String savingsGoalUid, String savingsGoal) {
+    public Response updateSavingsGoal(String payeeUid, String savingsGoalUid, String savingsGoal) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/account/%s/savings-goals/%s", payeeUid, savingsGoalUid), savingsGoal);
     }
 
@@ -614,7 +614,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}
      * Delete a savings goal
      */
-    public Response deleteSavingsGoal(String accountUid, String savingsGoalUid) {
+    public Response deleteSavingsGoal(String accountUid, String savingsGoalUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/account/%s/savings-goals/%s", accountUid, savingsGoalUid));
     }
 
@@ -622,7 +622,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals
      * Get all savings goals
      */
-    public Response getSavingsGoals(String accountUid) {
+    public Response getSavingsGoals(String accountUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/account/%s/savings-goals", accountUid));
     }
 
@@ -630,7 +630,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals
      * Create a savings goal
      */
-    public Response createSavingsGoal(String accountUid, String savingsGoal) {
+    public Response createSavingsGoal(String accountUid, String savingsGoal) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/account/%s/savings-goals", accountUid), savingsGoal);
     }
 
@@ -638,7 +638,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/photo
      * Get the photo associated with a savings goal
      */
-    public Response getSavingsGoalPhoto(String accountUid, String savingsGoalUid) {
+    public Response getSavingsGoalPhoto(String accountUid, String savingsGoalUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/account/%s/savings-goals/%s/photo", accountUid, savingsGoalUid));
     }
 
@@ -646,7 +646,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/add-money/{transferUid}
      * Add money into a savings goal
      */
-    public Response addMoneyIntoSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String addMoneyRequest) {
+    public Response addMoneyIntoSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String addMoneyRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/account/%s/savings-goals/%s/add-money/%s", accountUid, savingsGoalUid, transferUid), addMoneyRequest);
     }
 
@@ -654,7 +654,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/recurring-transfer
      * Withdraw money from a savings goal
      */
-    public Response withdrawMoneyFromSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String withdrawMoneyRequest) {
+    public Response withdrawMoneyFromSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String withdrawMoneyRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/account/%s/savings-goals/%s/withdraw-money/%s", accountUid, savingsGoalUid, transferUid), withdrawMoneyRequest);
     }
 
@@ -662,7 +662,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/recurring-transfer
      * Get the recurring transfer of a savings goal
      */
-    public Response getRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid) {
+    public Response getRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid) throws Exception { 
         return this.sendRequest(Request.GET, String.format("/api/v2/account/%s/savings-goals/%s/recurring-transfer", accountUid, savingsGoalUid));
     }
 
@@ -670,7 +670,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/recurring-transfer
      * Create a recurring transfer into a savings goal
      */
-    public Response createRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String scheduledSavingsPaymentRequest) {
+    public Response createRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid, String transferUid, String scheduledSavingsPaymentRequest) throws Exception { 
         return this.sendSignedRequest(Request.PUT, String.format("/api/v2/account/%s/savings-goals/%s/recurring-transfer", accountUid, savingsGoalUid, transferUid), scheduledSavingsPaymentRequest);
     }
 
@@ -678,7 +678,7 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Savings Goals - /api/v2/account/{accountUid}/savings-goals/{savingsGoalUid}/recurring-transfer
      * Delete the recurring transfer of a savings goal
      */
-    public Response deleteRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid) {
+    public Response deleteRecurringTransferOfSavingsGoal(String accountUid, String savingsGoalUid) throws Exception { 
         return this.sendRequest(Request.DELETE, String.format("/api/v2/account/%s/savings-goals/%s/recurring-transfer", accountUid, savingsGoalUid));
     }
 
@@ -697,7 +697,7 @@ public class StarlingClient {
      * @param method
      * @param url
      */
-    public Response sendRequest(String method, String url) {
+    public Response sendRequest(String method, String url) throws Exception {
         return this.sendRequest(method, url, "", false, new HashMap<>());
     }
 
@@ -707,7 +707,7 @@ public class StarlingClient {
      * @param url
      * @param payload
      */
-    public Response sendRequest(String method, String url, String payload) {
+    public Response sendRequest(String method, String url, String payload) throws Exception {
         return this.sendRequest(method, url, payload, false, new HashMap<>());
     }
 
@@ -717,7 +717,7 @@ public class StarlingClient {
      * @param url
      * @param payload
      */
-    public Response sendSignedRequest(String method, String url, String payload) {
+    public Response sendSignedRequest(String method, String url, String payload) throws Exception {
         return this.sendRequest(method, url, payload, true, new HashMap<>());
     }
 
@@ -726,7 +726,7 @@ public class StarlingClient {
      * @param method
      * @param url
      */
-    public Response sendSignedRequest(String method, String url) {
+    public Response sendSignedRequest(String method, String url) throws Exception {
         return this.sendRequest(method, url, "", true, new HashMap<>());
     }
 
@@ -737,7 +737,7 @@ public class StarlingClient {
      * @param payload
      * @param isSigned
      */
-    private Response sendRequest(String method, String url, String payload, Boolean isSigned, Map<String,String> requestHeaders) {
+    private Response sendRequest(String method, String url, String payload, Boolean isSigned, Map<String,String> requestHeaders) throws Exception {
 
         if (null == requestHeaders) {
             requestHeaders = new HashMap<>();
@@ -748,92 +748,89 @@ public class StarlingClient {
             requestHeaders.put("Content-Type", "application/json; charset=utf-8");
         }
 
-        try {
-            URL request_url = new URL(this.apiDomainUrl + url);
-            HttpsURLConnection con = (HttpsURLConnection) request_url.openConnection();
-            System.out.println(">> URL: " + con.getURL());
 
-            // PREVENT REDIRECT !!!
-            con.setInstanceFollowRedirects(false);
-            con.setDoOutput(true);
-            con.setRequestMethod(method.toUpperCase());
+        URL request_url = new URL(this.apiDomainUrl + url);
+        HttpsURLConnection con = (HttpsURLConnection) request_url.openConnection();
+        System.out.println(">> URL: " + con.getURL());
 
-            for(Map.Entry<String, String> entry : requestHeaders.entrySet()) {
-                con.setRequestProperty(entry.getKey(), entry.getValue());
-            }
+        // PREVENT REDIRECT !!!
+        con.setInstanceFollowRedirects(false);
+        con.setDoOutput(true);
+        con.setRequestMethod(method.toUpperCase());
 
-//            con.setRequestProperty("Accept", "application/pdf");
-
-            if (isSigned) {
-                System.out.println(">> StarlingClient - sendRequest - payload: " + payload);
-                String date_time = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX")).format(new Date());
-                System.out.println(">> StarlingClient - sendRequest - date_time: " + date_time);
-
-                String digest = GetDigest(payload);
-                String signature = GetSignature(method.toLowerCase(), url, digest, date_time);
-
-                con.setRequestProperty("Authorization", String.format(
-                        "Bearer %s;Signature keyid=\"%s\",algorithm=\"rsa-sha512\",headers=\"(request-target) Date Digest\",signature=\"%s\"",
-                        this.accessToken,
-                        this.punlicKeyUid,
-                        signature
-                ));
-                con.setRequestProperty("Date", date_time);
-                con.setRequestProperty("Digest", digest);
-
-                OutputStream outputStream = con.getOutputStream();
-                outputStream.write(payload.getBytes());
-                outputStream.flush();
-            } else {
-                con.setRequestProperty("Authorization", String.format("Bearer %s", this.accessToken));
-            }
-
-            System.out.println(">> StarlingClient - sendRequest - status: " + con.getResponseCode());
-
-            Reader streamReader = null;
-
-            if (con.getResponseCode() < HttpsURLConnection.HTTP_BAD_REQUEST) {
-                streamReader =  new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
-            } else {
-                try {
-                    streamReader =  new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8);
-                } catch (Exception ex) {
-                    System.out.println(">> StarlingClient - sendRequest - ex: " + ex.toString());
-                }
-            }
-
-            StringBuffer content = new StringBuffer();
-
-            if (streamReader != null) {
-                BufferedReader in = new BufferedReader(streamReader);
-                String inputLine;
-
-                while ((inputLine = in.readLine()) != null) {
-                    content.append(inputLine);
-                }
-                in.close();
-            }
-
-            Response res = new Response(
-                con.getResponseCode(),
-                con.getResponseMessage(),
-                con.getHeaderFields(),
-                content.toString()
-            );
-
-            con.disconnect();
-            return res;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        for(Map.Entry<String, String> entry : requestHeaders.entrySet()) {
+            con.setRequestProperty(entry.getKey(), entry.getValue());
         }
 
-        return new Response(
-            500,
-            "Internal Server Error",
-            null,
-            null
+        if (isSigned) {
+            System.out.println(">> StarlingClient - sendRequest - payload: " + payload);
+            String date_time = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSXXX")).format(new Date());
+            System.out.println(">> StarlingClient - sendRequest - date_time: " + date_time);
+
+            String digest = GetDigest(payload);
+            String signature = GetSignature(method.toLowerCase(), url, digest, date_time);
+
+            con.setRequestProperty("Authorization", String.format(
+                    "Bearer %s;Signature keyid=\"%s\",algorithm=\"rsa-sha512\",headers=\"(request-target) Date Digest\",signature=\"%s\"",
+                    this.accessToken,
+                    this.punlicKeyUid,
+                    signature
+            ));
+            con.setRequestProperty("Date", date_time);
+            con.setRequestProperty("Digest", digest);
+
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(payload.getBytes());
+            outputStream.flush();
+
+        } else {
+
+            con.setRequestProperty("Authorization", String.format("Bearer %s", this.accessToken));
+        }
+
+        System.out.println(">> StarlingClient - sendRequest - status: " + con.getResponseCode());
+
+        Reader streamReader = null;
+
+        if (con.getResponseCode() < HttpsURLConnection.HTTP_BAD_REQUEST) {
+            streamReader =  new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8);
+
+        } else {
+
+            try {
+                streamReader =  new InputStreamReader(con.getErrorStream(), StandardCharsets.UTF_8);
+            } catch (Exception ex) {
+                System.out.println(">> StarlingClient - sendRequest - ex: " + ex.toString());
+            }
+        }
+
+        StringBuffer content = new StringBuffer();
+
+        if (streamReader != null) {
+            BufferedReader in = new BufferedReader(streamReader);
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+        }
+
+        Response res = new Response(
+            con.getResponseCode(),
+            con.getResponseMessage(),
+            con.getHeaderFields(),
+            content.toString()
         );
+
+        con.disconnect();
+
+        // if not typical use case then throwing an exception
+        if (!IntStream.of(new int[]{200, 201, 204}).anyMatch(x -> x == res.getStatusCode())) {
+            throw new Exception(res.toString());
+        }
+
+        return res;
     }
 
     /**

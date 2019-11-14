@@ -1,14 +1,20 @@
 package main.com.deepinspire.starlingbank.http;
 
+import com.google.gson.Gson;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class Response {
+
+    protected final Gson gson = new Gson();
+
     private int status;
     private String message;
     private Map<String, List<String>> headers;
     private String content;
+
 
     public Response(int responseCode, String responseMessage, Map<String, List<String>> headerFields, String content) {
         this.status = responseCode;
@@ -33,10 +39,6 @@ public class Response {
         return this.content;
     }
 
-    /**
-     * Returns a string representation of the object.
-     * @return  a string representation of the object.
-     */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         // Response status code
@@ -70,5 +72,15 @@ public class Response {
             .append("\n");
 
         return builder.toString();
+    }
+
+    /**
+     * This method deserializes the specified Json into an object of the specified class.
+     * @param clazz the class of T
+     * @param <T> the type of the desired object
+     * @return an object of type T from the string
+     */
+    public <T> T fromJson(final Class<T> clazz) {
+        return gson.fromJson(this.content, clazz);
     }
 }
