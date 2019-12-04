@@ -11,11 +11,13 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
+import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
 import org.junit.*;
 
 import main.com.deepinspire.starlingbank.StarlingClient;
 import main.com.deepinspire.starlingbank.http.Response;
 import tests.com.deepinspire.starlingbank.accounts.AccountAssert;
+import tests.com.deepinspire.starlingbank.accounts.AccountIdentifiersAssert;
 
 import javax.net.ssl.*;
 
@@ -129,10 +131,8 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountIdentifiers() {
         try {
-            Response response = client.getAccountIdentifiers(accountUid);
-
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            AccountIdentifiersBean AccountIdentifiersBean = client.getAccountIdentifiers(accountUid);
+            AccountIdentifiersAssert.assertThat(AccountIdentifiersBean).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }

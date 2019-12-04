@@ -12,8 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import main.com.deepinspire.starlingbank.beans.account.AccountBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountsBean;
+import main.com.deepinspire.starlingbank.beans.account.AccountBean;
+import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
 import main.com.deepinspire.starlingbank.http.Request;
 import main.com.deepinspire.starlingbank.http.Response;
 
@@ -57,8 +58,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/identifiers
      * Get an account holder's bank account identifiers
      */
-    public Response getAccountIdentifiers(String accountUid) throws Exception { 
-        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/identifiers", accountUid));
+    public AccountIdentifiersBean getAccountIdentifiers(String accountUid) throws Exception {
+        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/identifiers", accountUid)).fromJson(AccountIdentifiersBean.class);
     }
 
     /**
