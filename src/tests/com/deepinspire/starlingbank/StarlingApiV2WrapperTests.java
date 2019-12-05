@@ -11,12 +11,14 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
+import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
 import org.junit.*;
 
 import main.com.deepinspire.starlingbank.StarlingClient;
 import main.com.deepinspire.starlingbank.http.Response;
 import tests.com.deepinspire.starlingbank.accounts.AccountAssert;
+import tests.com.deepinspire.starlingbank.accounts.AccountBalanceAssert;
 import tests.com.deepinspire.starlingbank.accounts.AccountIdentifiersAssert;
 
 import javax.net.ssl.*;
@@ -131,8 +133,8 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountIdentifiers() {
         try {
-            AccountIdentifiersBean AccountIdentifiersBean = client.getAccountIdentifiers(accountUid);
-            AccountIdentifiersAssert.assertThat(AccountIdentifiersBean).isValid();
+            AccountIdentifiersBean AccountIdentifiers = client.getAccountIdentifiers(accountUid);
+            AccountIdentifiersAssert.assertThat(AccountIdentifiers).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }
@@ -144,10 +146,8 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountBalance() {
         try {
-            Response response = client.getAccountBalance(accountUid);
-
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            AccountBalanceBean AccountBalance = client.getAccountBalance(accountUid);
+            AccountBalanceAssert.assertThat(AccountBalance).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }

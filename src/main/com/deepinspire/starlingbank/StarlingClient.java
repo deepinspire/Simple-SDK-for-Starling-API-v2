@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
+import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountsBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
@@ -69,8 +70,8 @@ public class StarlingClient {
      * The cleared balance is the settled balance on the account and so does not include pending transactions.
      * The effective balance includes pending transactions, and is the value most commonly presented to the account holder.
      */
-    public Response getAccountBalance(String accountUid) throws Exception { 
-        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/balance", accountUid));
+    public AccountBalanceBean getAccountBalance(String accountUid) throws Exception {
+        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/balance", accountUid)).fromJson(AccountBalanceBean.class);
     }
 
     /**
