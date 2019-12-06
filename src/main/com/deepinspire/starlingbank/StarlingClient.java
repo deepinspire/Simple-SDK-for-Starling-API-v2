@@ -83,8 +83,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/statement/available-periods
      * Get list of statement periods which are available for an account
      */
-    public Response getAccountStatementAvailablePeriods(String accountUid) throws Exception { 
-        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/statement/available-periods", accountUid));
+    public ArrayList<AccountStatementPeriodBean> getAccountStatementAvailablePeriods(String accountUid) throws Exception {
+        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/statement/available-periods", accountUid)).fromJson(StatementPeriodsBean.class).getPeriods();
     }
 
     /**

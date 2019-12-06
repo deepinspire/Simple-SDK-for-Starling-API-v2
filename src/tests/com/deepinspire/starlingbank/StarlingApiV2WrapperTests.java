@@ -14,14 +14,12 @@ import static org.assertj.core.api.Assertions.fail;
 import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
 import main.com.deepinspire.starlingbank.beans.account.ConfirmationOfFundsBean;
+import main.com.deepinspire.starlingbank.beans.account.AccountStatementPeriodBean;
 import org.junit.*;
 
 import main.com.deepinspire.starlingbank.StarlingClient;
 import main.com.deepinspire.starlingbank.http.Response;
-import tests.com.deepinspire.starlingbank.accounts.AccountAssert;
-import tests.com.deepinspire.starlingbank.accounts.AccountBalanceAssert;
-import tests.com.deepinspire.starlingbank.accounts.AccountIdentifiersAssert;
-import tests.com.deepinspire.starlingbank.accounts.ConfirmationOfFundsAssert;
+import tests.com.deepinspire.starlingbank.accounts.*;
 
 import javax.net.ssl.*;
 
@@ -163,7 +161,6 @@ public class StarlingApiV2WrapperTests {
         try {
             int targetAmountInMinorUnits = 100;
             ConfirmationOfFundsBean ConfirmationOfFunds = client.getAccountConfirmationOfFunds(accountUid, targetAmountInMinorUnits);
-
             ConfirmationOfFundsAssert.assertThat(ConfirmationOfFunds).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
@@ -176,10 +173,9 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountStatementAvailablePeriods() {
         try {
-            Response response = client.getAccountStatementAvailablePeriods(accountUid);
-
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            client.getAccountStatementAvailablePeriods(accountUid).forEach((period) -> {
+                AccountStatementPeriodAssert.assertThat(period).isValid();
+            });
         } catch (Exception e) {
             failOnException(e.getMessage());
         }
