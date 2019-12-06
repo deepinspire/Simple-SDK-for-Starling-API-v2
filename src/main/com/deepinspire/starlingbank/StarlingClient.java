@@ -12,10 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
-import main.com.deepinspire.starlingbank.beans.account.AccountsBean;
-import main.com.deepinspire.starlingbank.beans.account.AccountBean;
-import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
+import main.com.deepinspire.starlingbank.beans.account.*;
 import main.com.deepinspire.starlingbank.http.Request;
 import main.com.deepinspire.starlingbank.http.Response;
 
@@ -78,8 +75,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Accounts - /api/v2/accounts/{accountUid}/confirmation-of-funds
      * Get whether or not there are available funds for a requested amount
      */
-    public Response getAccountConfirmationOfFunds(String accountUid, int targetAmountInMinorUnits) throws Exception { 
-        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/confirmation-of-funds?targetAmountInMinorUnits=%s", accountUid, targetAmountInMinorUnits));
+    public ConfirmationOfFundsBean getAccountConfirmationOfFunds(String accountUid, int targetAmountInMinorUnits) throws Exception {
+        return this.sendRequest(Request.GET, String.format("/api/v2/accounts/%s/confirmation-of-funds?targetAmountInMinorUnits=%s", accountUid, targetAmountInMinorUnits)).fromJson(ConfirmationOfFundsBean.class);
     }
 
     /**

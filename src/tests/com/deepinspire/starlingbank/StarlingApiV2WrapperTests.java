@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
 import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
+import main.com.deepinspire.starlingbank.beans.account.ConfirmationOfFundsBean;
 import org.junit.*;
 
 import main.com.deepinspire.starlingbank.StarlingClient;
@@ -20,6 +21,7 @@ import main.com.deepinspire.starlingbank.http.Response;
 import tests.com.deepinspire.starlingbank.accounts.AccountAssert;
 import tests.com.deepinspire.starlingbank.accounts.AccountBalanceAssert;
 import tests.com.deepinspire.starlingbank.accounts.AccountIdentifiersAssert;
+import tests.com.deepinspire.starlingbank.accounts.ConfirmationOfFundsAssert;
 
 import javax.net.ssl.*;
 
@@ -160,10 +162,9 @@ public class StarlingApiV2WrapperTests {
     public void testGetAccountConfirmationOfFunds() {
         try {
             int targetAmountInMinorUnits = 100;
-            Response response = client.getAccountConfirmationOfFunds(accountUid, targetAmountInMinorUnits);
+            ConfirmationOfFundsBean ConfirmationOfFunds = client.getAccountConfirmationOfFunds(accountUid, targetAmountInMinorUnits);
 
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            ConfirmationOfFundsAssert.assertThat(ConfirmationOfFunds).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }
