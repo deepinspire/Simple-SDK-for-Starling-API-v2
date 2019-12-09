@@ -116,8 +116,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business
      * Get a business account holder's details
      */
-    public Response getAccountHolderBusiness() throws Exception { 
-        return this.sendRequest(Request.GET, "/api/v2/account-holder/business");
+    public AccountHolderBusinessBean getAccountHolderBusiness() throws Exception {
+        return this.sendRequest(Request.GET, "/api/v2/account-holder/business").fromJson(AccountHolderBusinessBean.class);
     }
 
     /**

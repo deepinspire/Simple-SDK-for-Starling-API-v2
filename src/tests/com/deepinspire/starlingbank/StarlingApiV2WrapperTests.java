@@ -11,15 +11,13 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-import main.com.deepinspire.starlingbank.beans.account.AccountBalanceBean;
-import main.com.deepinspire.starlingbank.beans.account.AccountIdentifiersBean;
-import main.com.deepinspire.starlingbank.beans.account.ConfirmationOfFundsBean;
-import main.com.deepinspire.starlingbank.beans.account.AccountStatementPeriodBean;
+import main.com.deepinspire.starlingbank.beans.account.*;
 import org.junit.*;
 
 import main.com.deepinspire.starlingbank.StarlingClient;
 import main.com.deepinspire.starlingbank.http.Response;
 import tests.com.deepinspire.starlingbank.accounts.*;
+import tests.com.deepinspire.starlingbank.accounts.AccountHolderBusinessAssert;
 
 import javax.net.ssl.*;
 
@@ -234,10 +232,8 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountHolderBusiness() {
         try {
-            Response response = client.getAccountHolderBusiness();
-
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            AccountHolderBusinessBean AccountHolderBusiness = client.getAccountHolderBusiness();
+            AccountHolderBusinessAssert.assertThat(AccountHolderBusiness).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }
