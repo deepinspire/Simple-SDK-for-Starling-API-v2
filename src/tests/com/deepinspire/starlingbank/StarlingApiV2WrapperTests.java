@@ -258,10 +258,8 @@ public class StarlingApiV2WrapperTests {
     @Test
     public void testGetAccountHolderBusinessRegisteredAddress() {
         try {
-            Response response = client.getAccountHolderBusinessRegisteredAddress();
-
-            System.out.println(response.toString());
-            assertThat(response.getStatusCode()).isEqualTo(200);
+            PhysicalAddressOfAccountHolderBean PhysicalAddressOfAccountHolder = client.getAccountHolderBusinessRegisteredAddress();
+            PhysicalAddressOfAccountHolderAssert.assertThat(PhysicalAddressOfAccountHolder).isValid();
         } catch (Exception e) {
             failOnException(e.getMessage());
         }

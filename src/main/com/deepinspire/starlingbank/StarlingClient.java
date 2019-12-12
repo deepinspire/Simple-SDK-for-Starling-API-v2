@@ -132,8 +132,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business/registered-address
      * Get a company's registered address
      */
-    public Response getAccountHolderBusinessRegisteredAddress() throws Exception { 
-        return this.sendRequest(Request.GET, "/api/v2/account-holder/business/registered-address");
+    public PhysicalAddressOfAccountHolderBean getAccountHolderBusinessRegisteredAddress() throws Exception {
+        return this.sendRequest(Request.GET, "/api/v2/account-holder/business/registered-address").fromJson(PhysicalAddressOfAccountHolderBean.class);
     }
 
 
