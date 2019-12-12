@@ -124,8 +124,8 @@ public class StarlingClient {
      * https://developer.starlingbank.com/docs - Businesses - /api/v2/account-holder/business/correspondence-address
      * Get a company's correspondence address. Will fallback to registered address if null
      */
-    public Response getAccountHolderBusinessCorrespondenceAddress() throws Exception { 
-        return this.sendRequest(Request.GET, "/api/v2/account-holder/business/correspondence-address");
+    public PhysicalAddressOfAccountHolderBean getAccountHolderBusinessCorrespondenceAddress() throws Exception {
+        return this.sendRequest(Request.GET, "/api/v2/account-holder/business/correspondence-address").fromJson(PhysicalAddressOfAccountHolderBean.class);
     }
 
     /**
