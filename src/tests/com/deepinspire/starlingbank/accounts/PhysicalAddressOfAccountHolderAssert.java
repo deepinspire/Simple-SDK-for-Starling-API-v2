@@ -17,7 +17,7 @@ public class PhysicalAddressOfAccountHolderAssert extends AbstractAssert<Physica
 
         Assertions.assertThat(actual.getLine1()).isNotNull();
         Assertions.assertThat(actual.getLine2()).isNotNull();
-        Assertions.assertThat(actual.getLine3()).isNotNull();
+        // Assertions.assertThat(actual.getLine3()).isNotNull();
         Assertions.assertThat(actual.getPostTown()).isNotNull();
         Assertions.assertThat(actual.getPostCode()).isNotNull();
         Assertions.assertThat(actual.getCountryCode()).isNotNull();
